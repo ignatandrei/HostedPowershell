@@ -33,7 +33,9 @@ namespace HostedPowershell
                             logger.LogInformation($"No result for {executeV1Script.ScriptName}");
                             return new string[0];
                         }
-                        return data.Result.Select(it => it.ToString()).ToArray();
+                        var ret=data.Result.Select(it => it.ToString()).ToArray();
+                        logger.LogInformation($"result for {executeV1Script.ScriptName}: {string.Join(",",ret)}");
+                        return ret;
 
                     }
                     else
