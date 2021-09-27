@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -16,8 +16,14 @@
     <PackageReference Include="Microsoft.PowerShell.SDK" Version="7.1.4" />
 
   </ItemGroup>
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+    <None Include="../nuget.md" Pack="true" PackagePath="\" />
+    <None Include="../../../docs/nuget.png" Pack="true" PackagePath="\" />
+    
   </ItemGroup>
   <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
@@ -26,14 +32,14 @@
     <Version>2021.9.27.700</Version>
     <PackageVersion>2021.9.27.700</PackageVersion>
     <Authors>Andrei Ignat</Authors>
-    <Description>This package lets you record a background hosted service to start powershell files </Description>
+    <Description>This package lets you record a background hosted service to start powershell files</Description>
     <Title>HostedPowershell</Title>
     <PackageId>HostedPowershell</PackageId>
     <PackageTags>C#;.NET;ASP.NET Core;PowerShell</PackageTags>
-    <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageIcon>ams.png</PackageIcon>
-    <RepositoryUrl>https://github.com/ignatandrei/RSCG_AMS</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/ignatandrei/RSCG_AMS</PackageProjectUrl>
+    <PackageReadmeFile>nuget.md</PackageReadmeFile>
+    <PackageIcon>nuget.png</PackageIcon>
+    <RepositoryUrl>https://github.com/ignatandrei/HostedPowershell</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/ignatandrei/HostedPowershell</PackageProjectUrl>
     <RepositoryType>GIT</RepositoryType>
     <Copyright>MIT</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
