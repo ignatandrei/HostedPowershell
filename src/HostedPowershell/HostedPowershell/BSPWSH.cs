@@ -36,17 +36,23 @@ namespace HostedPowershell
             while (!stoppingToken.IsCancellationRequested)
             {
                 logger.LogInformation($"BSPWSH is running at: {DateTime.Now}");
+                var delay = (optionsMonitor?.CurrentValue?.SleepSeconds ?? 15);
+                if (delay == 0)
+                    delay = 15;
+                logger.LogInformation($"BSPWSH delay: {delay}");
+                await Task.Delay(delay * 1000, stoppingToken);
+
                 if (optionsMonitor.CurrentValue?.scriptsV1 == null)
                 {
                     logger.LogInformation("please add scriptsv1");
-
+                    continue;
                 }
-                else
+                try{
+                var scripts = optionsMonitor.CurrentValue.scriptsV1.Select(it => it).ToArray();
+                foreach (var script in scripts)
                 {
-                    var scripts = optionsMonitor.CurrentValue.scriptsV1.Select(it=>it).ToArray();
-                    foreach (var script in scripts)
+                    try
                     {
-                        try{
                         using (var stream = fileProvider.GetFileInfo(script.ScriptName).CreateReadStream())
                         {
                             using (var reader = new StreamReader(stream))
@@ -55,29 +61,30 @@ namespace HostedPowershell
                                 script.scriptText = scriptText;
                             }
                         }
-                        }
-                        catch (Exception ex){
-                            logger.LogError(ex, $"error reading script {script.ScriptName}");
-                        }
                     }
-                    var executor = new ExecutePWSH(logger);
-                    var dataToExecute= scripts.Where(x => x.scriptText != null).ToArray();
-                    if(dataToExecute.Length>0){
-                        var data = await executor.ExecuteParalelV1(dataToExecute);
-                        string result = data.Aggregate("", (current, item) => current + $"{item.ScriptName} : {item.Result?.Length}");
-                        logger.LogInformation($"BSPWSH results : {result}");
+                    catch (Exception ex)
+                    {
+                        logger.LogError(ex, $"error reading script {script.ScriptName}");
                     }
-                    else{
-                        logger.LogInformation("no scripts found to execute");
-                    }
-
                 }
-                var delay = (optionsMonitor.CurrentValue?.SleepSeconds ?? 5);
-                if (delay == 0)
-                    delay = 5;
 
-                logger.LogInformation($"BSPWSH delay: {delay}");
-                await Task.Delay( delay * 1000, stoppingToken);
+                var executor = new ExecutePWSH(logger);
+                var dataToExecute = scripts.Where(x => x.scriptText != null).ToArray();
+                if (dataToExecute.Length > 0)
+                {
+                    var data = await executor.ExecuteParalelV1(dataToExecute);
+                    string result = data.Aggregate("", (current, item) => current + $",{item.ScriptName} : {item.Result?.Length}");
+                    logger.LogInformation($"BSPWSH results : {result}");
+                }
+                else
+                {
+                    logger.LogInformation("no scripts found to execute");
+                }
+                }
+                catch (Exception ex){
+                    logger.LogError(ex, "error executing scripts");
+                }
+
             }
         }
     }

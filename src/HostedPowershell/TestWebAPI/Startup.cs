@@ -22,7 +22,7 @@ namespace TestWebAPI
         public Startup(IConfiguration configuration, IHostEnvironment env)
         {
             Configuration = configuration;
-            this.env = env;
+            this.env = env; 
         }
 
         public IConfiguration Configuration { get; }
