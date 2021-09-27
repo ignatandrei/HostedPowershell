@@ -16,4 +16,33 @@
     <PackageReference Include="Microsoft.PowerShell.SDK" Version="7.1.4" />
 
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Version>2021.9.27.700</Version>
+    <PackageVersion>2021.9.27.700</PackageVersion>
+    <Authors>Andrei Ignat</Authors>
+    <Description>This package lets you record a background hosted service to start powershell files </Description>
+    <Title>HostedPowershell</Title>
+    <PackageId>HostedPowershell</PackageId>
+    <PackageTags>C#;.NET;ASP.NET Core;PowerShell</PackageTags>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageIcon>ams.png</PackageIcon>
+    <RepositoryUrl>https://github.com/ignatandrei/RSCG_AMS</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/ignatandrei/RSCG_AMS</PackageProjectUrl>
+    <RepositoryType>GIT</RepositoryType>
+    <Copyright>MIT</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <IncludeSymbols>true</IncludeSymbols>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <Deterministic>true</Deterministic>
+    <DebugType>embedded</DebugType>
+
+  </PropertyGroup>
+
 </Project>
