@@ -37,9 +37,10 @@ namespace TestWebAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TestWebAPI", Version = "v1" });
             });
             
-            services.Configure<BSPWSHOptions>(Configuration.GetSection("BSPWSH"));
-            services.AddSingleton<IFileProvider>(sp=> env.ContentRootFileProvider);
-            services.AddHostedService<BSPWSH>();
+            //services.Configure<BSPWSHOptions>(Configuration.GetSection("BSPWSH"));
+            //services.AddSingleton<IFileProvider>(sp=> env.ContentRootFileProvider);
+            //services.AddHostedService<BSPWSH>();
+            services.AddPowershellBackgroundService(Configuration,env);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
